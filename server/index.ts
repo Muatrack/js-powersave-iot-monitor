@@ -10,6 +10,7 @@ export default {
 	  .all();
     	// .bind("*")
       
+      // return Response.json({dbRets:results});
       return new Response(JSON.stringify(results), {
         headers: { 'Content-Type': 'application/json' }
       });
@@ -17,9 +18,7 @@ export default {
 
 	const url = new URL(request.url);
 	if (url.pathname.startsWith("/api/name")) {
-		return Response.json({
-			name: "Cloudflare",
-		});
+		return Response.json({name: "Cloudflare",});
 	}
 	return new Response(null, { status: 404 });
   }

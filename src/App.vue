@@ -15,8 +15,12 @@ const getName = async () => {
 let g_counter:number = 1
 
 const dbRead = async() => {
-  const resp = await fetch('/api/db')
-  dbRets.value = resp
+  // const resp = await fetch('/api/db')
+  fetch('/api/db')
+  .then( response => response.json() )
+  .then( data => {
+    dbRets.value = JSON.stringify(data)
+  });  
 }
 
 </script>
