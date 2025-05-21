@@ -14,44 +14,6 @@ const getName = async () => {
 
 let g_counter:number = 1
 
-async function cfDbRead(request, env) {
-    const { pathname } = new URL(request.url);
-
-    if (pathname === "/api/beverages") {
-      // If you did not use `DB` as your binding name, change it here
-      const { results } = await env.tstdb.prepare(
-        "SELECT * FROM user_list;",
-      )
-      .bind("Bs Beverages")
-      .all();
-      return Response.json(results);
-    }
-
-    return new Response(
-      "Call /api/beverages to see everyone who works at Bs Beverages",
-    );
-  }
-
-  async function fetch(request, env) {
-    const { pathname } = new URL(request.url);
-
-    if (pathname === "/api/beverages") {
-      // If you did not use `DB` as your binding name, change it here
-      const { results } = await env.testdb.prepare(
-        "SELECT * FROM user_list"
-      )
-        .bind("Bs Beverages")
-        .all();
-      return new Response(JSON.stringify(results), {
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    return new Response(
-      "Call /api/beverages to see everyone who works at Bs Beverages"
-    );
-  }
-
 const dbRead = async() => {
   dbRets.value = 'hi-' + g_counter
   g_counter += 1
