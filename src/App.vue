@@ -7,7 +7,13 @@ const name = ref('Unknown')
 const dbRets = ref('...')
 
 const getName = async () => {
-  const res = await fetch('/api/')
+  const res = await fetch('/api/name')
+  const data = await res.json()
+  name.value = data.name
+}
+
+const getUserList = async () => {
+  const res = await fetch('/api/db')
   const data = await res.json()
   name.value = data.name
 }
@@ -15,7 +21,8 @@ const getName = async () => {
 let g_counter:number = 1
 
 const dbRead = async() => {
-  dbRets.value = 'hi-' + g_counter
+  const resp = getUserList()
+  dbRets.value = 'hi-' + g_counter + '\n------ databaseVal ------' + resp
   g_counter += 1
 }
 
