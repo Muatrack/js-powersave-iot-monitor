@@ -9,7 +9,7 @@ export default {
       )
 	  .all();
     	// .bind("*")
-        
+      
       return new Response(JSON.stringify(results), {
         headers: { 'Content-Type': 'application/json' }
       });

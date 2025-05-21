@@ -12,18 +12,11 @@ const getName = async () => {
   name.value = data.name
 }
 
-const getUserList = async () => {
-  const res = await fetch('/api/db')
-  const data = await res.json()
-  name.value = data.name
-}
-
 let g_counter:number = 1
 
 const dbRead = async() => {
-  const resp = getUserList()
-  dbRets.value = 'hi-' + g_counter + '\n------ databaseVal ------' + resp
-  g_counter += 1
+  const resp = await fetch('/api/db')
+  dbRets.value = resp
 }
 
 </script>
