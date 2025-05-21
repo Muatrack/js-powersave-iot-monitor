@@ -1,27 +1,79 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 const name = ref('Unknown')
+const dbRets = ref('...')
 
 const getName = async () => {
   const res = await fetch('/api/')
   const data = await res.json()
   name.value = data.name
 }
+
+let g_counter:number = 1
+
+async function cfDbRead(request, env) {
+    const { pathname } = new URL(request.url);
+
+    if (pathname === "/api/beverages") {
+      // If you did not use `DB` as your binding name, change it here
+      const { results } = await env.tstdb.prepare(
+        "SELECT * FROM user_list;",
+      )
+      .bind("Bs Beverages")
+      .all();
+      return Response.json(results);
+    }
+
+    return new Response(
+      "Call /api/beverages to see everyone who works at Bs Beverages",
+    );
+  }
+
+  async function fetch(request, env) {
+    const { pathname } = new URL(request.url);
+
+    if (pathname === "/api/beverages") {
+      // If you did not use `DB` as your binding name, change it here
+      const { results } = await env.testdb.prepare(
+        "SELECT * FROM user_list"
+      )
+        .bind("Bs Beverages")
+        .all();
+      return new Response(JSON.stringify(results), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    return new Response(
+      "Call /api/beverages to see everyone who works at Bs Beverages"
+    );
+  }
+
+const dbRead = async() => {
+  dbRets.value = 'hi-' + g_counter
+  g_counter += 1
+}
+
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
     <div class="wrapper">
-      <HelloWorld msg="What's your name" />
-      <button class="green" @click="getName" aria-label="get name">
-        Name from API is: {{ name }}
-      </button>
-      <p>Edit <code>server/index.ts</code> to change what the API gets</p>
+      <HelloWorld msg="You are welcome !" />
+      
+      <div class="buttonlist-style" >
+
+        <div> {{ dbRets }} </div>
+
+        <button class="green" @click="dbRead()"  > DB1 test </button>
+        <button class="green" > DB1 test </button>
+      </div>
+
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
@@ -33,6 +85,12 @@ const getName = async () => {
 </template>
 
 <style scoped>
+
+.buttonlist-style {
+  display: flex;
+  flex-direction: column;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

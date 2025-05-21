@@ -8,12 +8,7 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
-      <a href="https://vite.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a> +
-      <a href="https://developers.cloudflare.com/workers/" target="_blank" rel="noopener"
-        >Cloudflare Workers</a
-      >. What's next?
+      Hi guy, we are processing and will get back to you soon !
     </h3>
   </div>
 </template>
