@@ -7,8 +7,9 @@ export default {
       const { results } = await env.DB.prepare(
         "SELECT * FROM user_list"
       )
-    	.bind("*")
-        .all();
+	  .all();
+    	// .bind("*")
+        
       return new Response(JSON.stringify(results), {
         headers: { 'Content-Type': 'application/json' }
       });
