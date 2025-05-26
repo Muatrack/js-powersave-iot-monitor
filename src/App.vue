@@ -2,9 +2,11 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { reactive, ref } from 'vue'
+import { fetchData } from './api';
 
 const name = ref('Unknown')
 const dbRets = ref('...')
+const platformAddress = ref('')
 
 const getName = async () => {
   const res = await fetch('/api/name')
@@ -23,12 +25,16 @@ const dbRead = async() => {
   });  
 }
 
-const getRemoteServerSets = async ()=>{
-  fetch('http://192.168.20.1/v1/api/system', {method:'GET', mode:'cors'})
-  .then(response=>response.json())
-  .then( data=>{
-    console.log('platform sets:' + data)
+const getRemoteServerSets_v2 = ()=>{
+  fetchData('/v1/api/system?part=platform')
+  .then( resp=>{
+    platformAddress.value = resp.data;
+    return resp.data;
   })
+  .then( data=>{
+    console.log('data:', data);
+    platformAddress.value = data.data.address
+  } )
 }
 
 const setRemoteServerAsDev = async ()=>{
@@ -39,8 +45,6 @@ const setRemoteServerAsDev = async ()=>{
   })
 }
 
-
-
 </script>
 
 <template>
@@ -48,18 +52,20 @@ const setRemoteServerAsDev = async ()=>{
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
     <div class="wrapper">
-      <HelloWorld msg="节能产品-急救工具" phase=2025-05 />
+      <HelloWorld msg="节能-急救工具" phase=2025-05 />
       
       <div class="buttonlist-style" >
 
-        <div> {{ dbRets }} </div>
+        <!-- <div> {{ dbRets }} </div> -->
 
         <!-- <button class="green" @click="dbRead()"  > DB1 test </button> -->
-        <div class="buttonlist-style" >
-          <div>  </div>
+        <div class="vview" >
+          <div class="hview" >
+            <div> 平台地址 </div>
+            <view>{{ platformAddress }}</view>
+          </div>
         </div>
-
-        <button class="green" @click="getRemoteServerSets()" > 读取平台信息 </button>
+        <button class="green" @click="getRemoteServerSets_v2()" > 读取平台信息 </button>
         <button class="green" @click="setRemoteServerAsDev()" > 设置为开发平台 </button>
       </div>
 
@@ -74,6 +80,16 @@ const setRemoteServerAsDev = async ()=>{
 </template>
 
 <style scoped>
+
+.vview {
+  display: flex;
+  flex-direction:row;
+}
+
+.hview {
+  display: flex;
+  flex-direction:column;
+}
 
 .buttonlist-style {
   display: flex;

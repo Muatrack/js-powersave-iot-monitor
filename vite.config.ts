@@ -10,6 +10,13 @@ import { cloudflare } from "@cloudflare/vite-plugin"
 export default defineConfig({
 	server: {
 		host:'0.0.0.0',
+		proxy: {
+			'/v1': {
+			target: 'http://192.168.20.1',
+			changeOrigin: true,
+			rewrite: (path)=>path.replace('^/v1', '')
+			},
+		},
 	},
 	plugins: [
 		vue(),
