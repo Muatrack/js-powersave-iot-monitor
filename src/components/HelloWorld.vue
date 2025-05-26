@@ -1,15 +1,14 @@
 <script setup lang="ts">
 defineProps<{
-  msg: string
+  msg: string,
+  phase: string|undefined
 }>()
 </script>
 
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
-    <h3>
-      Hi guy, we are processing and will get back to you soon !
-    </h3>
+    <h3>{{ phase?phase:"No phase" }}</h3>
   </div>
 </template>
 

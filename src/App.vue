@@ -23,6 +23,24 @@ const dbRead = async() => {
   });  
 }
 
+const getRemoteServerSets = async ()=>{
+  fetch('http://192.168.20.1/v1/api/system', {method:'GET', mode:'cors'})
+  .then(response=>response.json())
+  .then( data=>{
+    console.log('platform sets:' + data)
+  })
+}
+
+const setRemoteServerAsDev = async ()=>{
+  fetch('http://192.168.20.1/v1/api/system', {method:'POST', mode:'cors'})
+  .then(response=>response.json())
+  .then( data=>{
+    console.log(data)
+  })
+}
+
+
+
 </script>
 
 <template>
@@ -30,24 +48,29 @@ const dbRead = async() => {
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
     <div class="wrapper">
-      <HelloWorld msg="You are welcome !" />
+      <HelloWorld msg="节能产品-急救工具" phase=2025-05 />
       
       <div class="buttonlist-style" >
 
         <div> {{ dbRets }} </div>
 
-        <button class="green" @click="dbRead()"  > DB1 test </button>
-        <button class="green" > DB1 test </button>
+        <!-- <button class="green" @click="dbRead()"  > DB1 test </button> -->
+        <div class="buttonlist-style" >
+          <div>  </div>
+        </div>
+
+        <button class="green" @click="getRemoteServerSets()" > 读取平台信息 </button>
+        <button class="green" @click="setRemoteServerAsDev()" > 设置为开发平台 </button>
       </div>
 
-      <nav>
+      <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-      </nav>
+      </nav> -->
     </div>
   </header>
 
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>
